@@ -255,6 +255,11 @@ screen quick_menu():
             textbutton _("Q.Load") action QuickLoad()
             textbutton _("Prefs") action ShowMenu('preferences')
 
+            if player.background_id is not None:
+                textbutton _("Character"):
+                    id "quick_player_stats"
+                    action ShowMenu("player_stats")
+
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
 ## the player has not explicitly hidden the interface.
@@ -1534,6 +1539,11 @@ screen quick_menu():
             textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Auto") action Preference("auto-forward", "toggle")
             textbutton _("Menu") action ShowMenu()
+
+            if player.background_id is not None:
+                textbutton _("Character"):
+                    id "quick_player_stats"
+                    action ShowMenu("player_stats")
 
 
 style window:

@@ -109,3 +109,89 @@ testsuite player_tests:
 
             subject.change_arousal(-1)
             assert subject.arousal == 0
+
+
+testsuite character_menu_tests:
+
+    before testcase:
+        if not screen "main_menu":
+            run MainMenu(confirm=False)
+
+        pause until screen "main_menu"
+        run Start()
+        advance until screen "background_select"
+
+    testcase bookworm_overview:
+        click id "background_bookworm"
+        click id "background_begin"
+        advance until screen "choice"
+
+        $ stats_before = (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status)
+
+        click id "quick_player_stats"
+        pause until screen "player_stats"
+        assert id "stat_intellect"
+
+        click id "player_stats_tab_skills"
+        assert id "skill_submission"
+
+        click id "player_stats_tab_preferences"
+        assert id "preference_oral"
+
+        click id "player_stats_close"
+        pause until not screen "player_stats"
+        assert screen "choice"
+        assert eval (stats_before == (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status))
+
+        click "Leave unchanged"
+        advance until screen "main_menu"
+
+    testcase girl_next_door_overview:
+        click id "background_girl_next_door"
+        click id "background_begin"
+        advance until screen "choice"
+
+        $ stats_before = (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status)
+
+        click id "quick_player_stats"
+        pause until screen "player_stats"
+        assert id "stat_intellect"
+
+        click id "player_stats_tab_skills"
+        assert id "skill_submission"
+
+        click id "player_stats_tab_preferences"
+        assert id "preference_group"
+
+        click id "player_stats_close"
+        pause until not screen "player_stats"
+        assert screen "choice"
+        assert eval (stats_before == (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status))
+
+        click "Leave unchanged"
+        advance until screen "main_menu"
+
+    testcase social_butterfly_overview:
+        click id "background_social_butterfly"
+        click id "background_begin"
+        advance until screen "choice"
+
+        $ stats_before = (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status)
+
+        click id "quick_player_stats"
+        pause until screen "player_stats"
+        assert id "stat_intellect"
+
+        click id "player_stats_tab_skills"
+        assert id "skill_dominance"
+
+        click id "player_stats_tab_preferences"
+        assert id "preference_bdsm"
+
+        click id "player_stats_close"
+        pause until not screen "player_stats"
+        assert screen "choice"
+        assert eval (stats_before == (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status))
+
+        click "Leave unchanged"
+        advance until screen "main_menu"

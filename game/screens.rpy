@@ -457,6 +457,7 @@ screen load():
     use file_slots(_("Load"))
 
 screen file_slots(title):
+
     default page_name_value = FilePageNameInputValue(
         pattern=_("Page {}"),
         auto=_("Automatic saves"),
@@ -490,16 +491,30 @@ screen file_slots(title):
                     $ slot = i + 1
 
                     button:
-                        action FileAction(slot)
+                        id ("file_slot_" + str(slot))
+
+                        if CurrentScreenName() == "save":
+                            action named_save_action(
+                                slot,
+                                FileCurrentPage(),
+                            )
+                        else:
+                            action FileAction(slot)
+
                         has vbox
 
                         add FileScreenshot(slot) xalign 0.5
 
-                        text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("empty slot")):
+                        text FileTime(
+                            slot,
+                            format=_("{#file_time}%A, %B %d %Y, %H:%M"),
+                            empty=_("empty slot"),
+                        ):
                             style "slot_time_text"
 
                         text FileSaveName(slot):
                             style "slot_name_text"
+                            substitute False
 
                         key "save_delete" action FileDelete(slot)
 
@@ -529,10 +544,12 @@ screen file_slots(title):
                     key "save_page_next" action FilePageNext()
 
                 if config.has_sync:
+
                     if CurrentScreenName() == "save":
                         textbutton _("Upload Sync"):
                             action UploadSync()
                             xalign 0.5
+
                     else:
                         textbutton _("Download Sync"):
                             action DownloadSync()

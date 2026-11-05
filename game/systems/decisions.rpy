@@ -1,4 +1,18 @@
+# Player preferences, shared across playthroughs.
 default persistent.walkthrough_mode = "off"
+default persistent.show_unavailable_choices = False
+
+
+# Display names used by the full walkthrough.
+define DECISION_VALUE_LABELS = {
+    "attributes.intellect": _("Intellect"),
+    "attributes.stamina": _("Stamina"),
+    "attributes.charisma": _("Charisma"),
+    "submission": _("Submission"),
+    "dominance": _("Dominance"),
+    "corruption": _("Corruption"),
+    "arousal": _("Arousal"),
+}
 
 
 init python:
@@ -39,6 +53,27 @@ init python:
                 return False
 
         return True
+
+
+    def decision_visible(
+        option,
+        actor,
+        mode=None,
+        show_unavailable=None,
+    ):
+        """Determine visibility without changing availability."""
+
+        if mode is None:
+            mode = persistent.walkthrough_mode
+
+        if show_unavailable is None:
+            show_unavailable = persistent.show_unavailable_choices
+
+        return (
+            decision_available(option, actor)
+            or mode == "full"
+            or show_unavailable
+        )
 
 
     def decision_target(actor, key, amount):
@@ -121,14 +156,3 @@ init python:
         )
 
         return " | ".join(lines)
-
-
-define DECISION_VALUE_LABELS = {
-    "attributes.intellect": _("Intellect"),
-    "attributes.stamina": _("Stamina"),
-    "attributes.charisma": _("Charisma"),
-    "submission": _("Submission"),
-    "dominance": _("Dominance"),
-    "corruption": _("Corruption"),
-    "arousal": _("Arousal"),
-}

@@ -2,6 +2,7 @@ testsuite decision_tests:
 
     setup:
         $ persistent.decision_tests_original_mode = persistent.walkthrough_mode
+        $ persistent.decision_tests_original_visibility = persistent.show_unavailable_choices
 
     before testcase:
         if not screen "main_menu":
@@ -11,6 +12,7 @@ testsuite decision_tests:
         run Start()
 
         $ persistent.walkthrough_mode = "off"
+        $ persistent.show_unavailable_choices = False
 
         advance until screen "background_select"
         click id "background_bookworm"
@@ -23,7 +25,10 @@ testsuite decision_tests:
 
     teardown:
         $ persistent.walkthrough_mode = persistent.decision_tests_original_mode
+        $ persistent.show_unavailable_choices = persistent.decision_tests_original_visibility
+
         $ persistent.decision_tests_original_mode = None
+        $ persistent.decision_tests_original_visibility = None
 
     testcase walkthrough_and_effects:
 
@@ -97,3 +102,81 @@ testsuite decision_tests:
                 subject,
             )
             assert subject.dominance == 2
+
+    testcase visibility_rules:
+
+        python:
+            subject = PlayerState()
+
+            locked = {
+                "id": "locked",
+                "requires": (
+                    ("attributes.charisma", 4, None),
+                ),
+            }
+
+            available = {
+                "id": "available",
+            }
+
+            for mode in ("off", "hints", "full"):
+                for show_unavailable in (False, True):
+
+                    assert decision_visible(
+                        available,
+                        subject,
+                        mode,
+                        show_unavailable,
+                    )
+
+                    expected = (
+                        mode == "full" or show_unavailable
+                    )
+
+                    assert decision_visible(
+                        locked,
+                        subject,
+                        mode,
+                        show_unavailable,
+                    ) == expected
+
+                    assert not decision_available(locked, subject)
+
+    testcase unavailable_choices_setting:
+
+        # Bookworm has CHA 3; the leadership option needs CHA 4.
+        assert not id "decision_option_lead"
+
+        run ShowMenu("preferences")
+        pause until screen "preferences"
+
+        click id "pref_unavailable_show"
+        assert eval (persistent.show_unavailable_choices is True)
+
+        click "Return"
+        pause until not screen "preferences"
+        pause until screen "decision_choice"
+
+        assert id "decision_option_lead"
+
+        run ShowMenu("preferences")
+        pause until screen "preferences"
+
+        click id "pref_unavailable_hide"
+        assert eval (persistent.show_unavailable_choices is False)
+
+        click "Return"
+        pause until not screen "preferences"
+        pause until screen "decision_choice"
+
+        assert not id "decision_option_lead"
+
+        click id "walkthrough_hints"
+        assert not id "decision_option_lead"
+
+        click id "walkthrough_full"
+        assert id "decision_option_lead"
+        assert id "decision_details_lead"
+
+        click id "decision_option_independent"
+        advance until screen "main_menu"

@@ -15,6 +15,7 @@ screen decision_choice(decision):
             size 36
             color "#ffffff"
 
+        # Temporary shortcuts for testing.
         hbox:
             spacing 24
 
@@ -30,9 +31,11 @@ screen decision_choice(decision):
                 textbutton _(caption):
                     id ("walkthrough_" + mode)
                     text_size 24
+
                     selected (
                         persistent.walkthrough_mode == mode
                     )
+
                     action SetField(
                         persistent,
                         "walkthrough_mode",
@@ -41,42 +44,45 @@ screen decision_choice(decision):
 
         for option in decision["options"]:
 
-            vbox:
-                xsize 1500
-                spacing 8
+            if decision_visible(option, player):
 
-                button:
-                    id ("decision_option_" + option["id"])
+                vbox:
+                    xsize 1500
+                    spacing 8
 
-                    xfill True
-                    padding (20, 14)
+                    button:
+                        id ("decision_option_" + option["id"])
 
-                    background Solid("#30263c")
-                    hover_background Solid("#55356e")
-                    insensitive_background Solid("#211d27")
+                        xfill True
+                        padding (20, 14)
 
-                    sensitive decision_available(option, player)
-                    action Return(option["id"])
+                        background Solid("#30263c")
+                        hover_background Solid("#55356e")
+                        insensitive_background Solid("#211d27")
 
-                    text _(option["text"]):
-                        size 28
-                        color (
-                            "#ffffff"
-                            if decision_available(option, player)
-                            else "#81768b"
-                        )
+                        sensitive decision_available(option, player)
+                        action Return(option["id"])
 
-                if persistent.walkthrough_mode == "hints":
+                        text _(option["text"]):
+                            size 28
 
-                    text _(option["hint"]):
-                        id ("decision_hint_" + option["id"])
-                        size 22
-                        color "#cbb5df"
+                            color (
+                                "#ffffff"
+                                if decision_available(option, player)
+                                else "#81768b"
+                            )
 
-                elif persistent.walkthrough_mode == "full":
+                    if persistent.walkthrough_mode == "hints":
 
-                    text decision_details(option, player):
-                        id ("decision_details_" + option["id"])
-                        xsize 1500
-                        size 22
-                        color "#cbb5df"
+                        text _(option["hint"]):
+                            id ("decision_hint_" + option["id"])
+                            size 22
+                            color "#cbb5df"
+
+                    elif persistent.walkthrough_mode == "full":
+
+                        text decision_details(option, player):
+                            id ("decision_details_" + option["id"])
+                            xsize 1500
+                            size 22
+                            color "#cbb5df"

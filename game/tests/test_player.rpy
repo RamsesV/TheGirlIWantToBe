@@ -11,10 +11,11 @@ testsuite player_tests:
 
         pause until screen "main_menu"
         run Start()
-        advance until screen "choice"
+        advance until screen "background_select"
 
     testcase bookworm:
-        click "Bookworm"
+        click id "background_bookworm"
+        click id "background_begin"
         advance until screen "choice"
 
         assert eval (player.background_id == "bookworm")
@@ -34,7 +35,8 @@ testsuite player_tests:
         advance until screen "main_menu"
 
     testcase girl_next_door:
-        click "Girl Next Door"
+        click id "background_girl_next_door"
+        click id "background_begin"
         advance until screen "choice"
 
         assert eval (player.background_id == "girl_next_door")
@@ -54,7 +56,8 @@ testsuite player_tests:
         advance until screen "main_menu"
 
     testcase social_butterfly:
-        click "Social Butterfly"
+        click id "background_social_butterfly"
+        click id "background_begin"
         advance until screen "choice"
 
         assert eval (player.background_id == "social_butterfly")

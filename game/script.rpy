@@ -16,21 +16,20 @@ label start:
 
 label choose_background:
 
-    menu:
-        "Which background fits you?"
+    # Hide the dialogue quick menu during background selection.
+    $ quick_menu = False
 
-        "Bookworm":
-            $ chosen_background = "bookworm"
+    call screen background_select
 
-        "Girl Next Door":
-            $ chosen_background = "girl_next_door"
+    $ chosen_background = _return
+    $ quick_menu = True
 
-        "Social Butterfly":
-            $ chosen_background = "social_butterfly"
-
-    # Always create fresh state before applying a background.
+    # Apply the confirmed selection to fresh player state.
     $ player = PlayerState()
-    $ player.apply_background(chosen_background, BACKGROUNDS[chosen_background])
+    $ player.apply_background(
+        chosen_background,
+        BACKGROUNDS[chosen_background],
+    )
 
     return
 

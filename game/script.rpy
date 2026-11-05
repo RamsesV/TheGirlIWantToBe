@@ -9,6 +9,8 @@ label start:
 
     call player_state_test
 
+    call decision_demo
+
     "End of the first prototype."
 
     return

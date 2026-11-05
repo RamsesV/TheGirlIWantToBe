@@ -32,6 +32,8 @@ testsuite player_tests:
         click "Add 20 points"
         advance until "Arousal: 10"
         assert eval (player.arousal == 10)
+        advance until screen "decision_choice"
+        click id "decision_option_independent"
         advance until screen "main_menu"
 
     testcase girl_next_door:
@@ -53,6 +55,8 @@ testsuite player_tests:
         click "Subtract 20 points"
         advance until "Arousal: 0"
         assert eval (player.arousal == 0)
+        advance until screen "decision_choice"
+        click id "decision_option_independent"
         advance until screen "main_menu"
 
     testcase social_butterfly:
@@ -74,6 +78,8 @@ testsuite player_tests:
         click "Leave unchanged"
         advance until "Arousal: 0"
         assert eval (player.arousal == 0)
+        advance until screen "decision_choice"
+        click id "decision_option_independent"
         advance until screen "main_menu"
 
     testcase arousal_calculation:
@@ -144,6 +150,8 @@ testsuite character_menu_tests:
         assert eval (stats_before == (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status))
 
         click "Leave unchanged"
+        advance until screen "decision_choice"
+        click id "decision_option_independent"
         advance until screen "main_menu"
 
     testcase girl_next_door_overview:
@@ -169,6 +177,8 @@ testsuite character_menu_tests:
         assert eval (stats_before == (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status))
 
         click "Leave unchanged"
+        advance until screen "decision_choice"
+        click id "decision_option_independent"
         advance until screen "main_menu"
 
     testcase social_butterfly_overview:
@@ -194,4 +204,6 @@ testsuite character_menu_tests:
         assert eval (stats_before == (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status))
 
         click "Leave unchanged"
+        advance until screen "decision_choice"
+        click id "decision_option_independent"
         advance until screen "main_menu"

@@ -1,33 +1,68 @@
-﻿# The script of the game goes in this file.
-
-# Declare characters used by this game. The color argument colorizes the
-# name of the character.
-
-define e = Character("Eileen")
-
-
-# The game starts here.
-
 label start:
 
-    # Show a background. This uses a placeholder by default, but you can
-    # add a file (named either "bg room.png" or "bg room.jpg") to the
-    # images directory to show it.
+    scene black
 
-    scene bg room
+    "Every new beginning starts somewhere."
+    "Choose your background."
 
-    # This shows a character sprite. A placeholder is used, but you can
-    # replace it by adding a file named "eileen happy.png" to the images
-    # directory.
+    call choose_background
 
-    show eileen happy
+    call player_state_test
 
-    # These display lines of dialogue.
+    "End of the first prototype."
 
-    e "You've created a new Ren'Py game."
+    return
 
-    e "Once you add a story, pictures, and music, you can release it to the world!"
 
-    # This ends the game.
+label choose_background:
+
+    menu:
+        "Which background fits you?"
+
+        "Bookworm":
+            $ chosen_background = "bookworm"
+
+        "Girl Next Door":
+            $ chosen_background = "girl_next_door"
+
+        "Social Butterfly":
+            $ chosen_background = "social_butterfly"
+
+    # Always create fresh state before applying a background.
+    $ player = PlayerState()
+    $ player.apply_background(chosen_background, BACKGROUNDS[chosen_background])
+
+    return
+
+
+label player_state_test:
+
+    $ background_name = BACKGROUNDS[player.background_id]["name"]
+
+    "Background: [background_name]"
+    "INT: [player.attributes['intellect']] | STA: [player.attributes['stamina']] | CHA: [player.attributes['charisma']]"
+    "Submission: [player.submission] | Dominance: [player.dominance]"
+    "Corruption: [player.corruption] | Arousal: [player.arousal]"
+
+    "Manual skill: [player.skills['manual']]"
+    "Body awareness: [player.skills['body_awareness']]"
+    "Submission practice: [player.skills['submission']]"
+    "Dominance practice: [player.skills['dominance']]"
+
+    "Relationship status: [player.relationship_status]"
+
+    menu:
+        "Test the arousal limit?"
+
+        "Add 20 points":
+            $ player.change_arousal(20)
+
+        "Subtract 20 points":
+            $ player.change_arousal(-20)
+
+        "Leave unchanged":
+            pass
+
+    "Arousal: [player.arousal]"
 
     return

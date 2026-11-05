@@ -1,6 +1,30 @@
 testsuite global:
 
+    setup:
+        # Preserve the original backup if a previous test run was interrupted.
+        if eval (persistent.gallery_test_backup is None):
+
+            $ persistent.gallery_test_backup = {
+                "unlocks": dict(persistent.gallery_unlocks),
+                "unlock_all": persistent.gallery_unlock_all,
+            }
+
     teardown:
+        if eval (persistent.gallery_test_backup is not None):
+
+            $ persistent.gallery_unlocks = dict(
+                persistent.gallery_test_backup["unlocks"]
+            )
+
+            $ persistent.gallery_unlock_all = (
+                persistent.gallery_test_backup["unlock_all"]
+            )
+
+            $ persistent.gallery_test_backup = None
+
+        $ persistent.gallery_replay_snapshot = None
+        $ renpy.save_persistent()
+
         exit
 
 testsuite player_tests:

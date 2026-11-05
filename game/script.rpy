@@ -7,6 +7,8 @@ label start:
 
     call choose_background
 
+    call memory_arrival
+
     call player_state_test
 
     call decision_demo

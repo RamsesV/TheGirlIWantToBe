@@ -221,6 +221,7 @@ style quick_button_text:
 # Navigation.
 
 screen navigation():
+
     vbox:
         style_prefix "navigation"
 
@@ -230,6 +231,7 @@ screen navigation():
 
         if main_menu:
             textbutton _("Start") action Start()
+
         else:
             textbutton _("History") action ShowMenu("history")
             textbutton _("Save") action ShowMenu("save")
@@ -237,14 +239,22 @@ screen navigation():
         textbutton _("Load") action ShowMenu("load")
         textbutton _("Preferences") action ShowMenu("preferences")
 
+        textbutton _("Gallery"):
+            id "navigation_gallery"
+            action ShowMenu("replay_gallery")
+
         if _in_replay:
             textbutton _("End Replay") action EndReplay(confirm=True)
+
         elif not main_menu:
             textbutton _("Main Menu") action MainMenu()
 
         textbutton _("About") action ShowMenu("about")
 
-        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+        if renpy.variant("pc") or (
+            renpy.variant("web")
+            and not renpy.variant("mobile")
+        ):
             textbutton _("Help") action ShowMenu("help")
 
         if renpy.variant("pc"):

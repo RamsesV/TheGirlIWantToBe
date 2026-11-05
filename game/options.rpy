@@ -30,6 +30,9 @@ define config.version = "0.1.0"
 ## triple-quotes, and leave a blank line between paragraphs.
 
 define gui.about = _p("""
+An interactive visual novel about new beginnings and the person you choose to become.
+
+Currently in development.
 """)
 
 
@@ -48,7 +51,7 @@ define build.name = "TheGirlIWantToBe"
 
 define config.has_sound = True
 define config.has_music = True
-define config.has_voice = True
+define config.has_voice = False
 
 
 ## To allow the user to play a test sound on the sound or voice channel,
@@ -159,41 +162,38 @@ define config.window_icon = "gui/window_icon.png"
 
 init python:
 
-    ## The following functions take file patterns. File patterns are case-
-    ## insensitive, and matched against the path relative to the base directory,
-    ## with and without a leading /. If multiple patterns match, the first is
-    ## used.
-    ##
-    ## In a pattern:
-    ##
-    ## / is the directory separator.
-    ##
-    ## * matches all characters, except the directory separator.
-    ##
-    ## ** matches all characters, including the directory separator.
-    ##
-    ## For example, "*.txt" matches txt files in the base directory, "game/
-    ## **.ogg" matches ogg files in the game directory or any of its
-    ## subdirectories, and "**.psd" matches psd files anywhere in the project.
+    # Stop scene-specific audio when entering the main menu.
+    # Preserve Ren'Py's existing channel list.
+    for channel in ("ambience", "adult"):
+        if channel not in config.main_menu_stop_channels:
+            config.main_menu_stop_channels.append(channel)
 
-    ## Classify files as None to exclude them from the built distributions.
+    # Exclude development files and project working directories.
+    build.classify("game/dev/**", None)
+    build.classify("game/tests/**", None)
 
-    build.classify('**~', None)
-    build.classify('**.bak', None)
-    build.classify('**/.**', None)
-    build.classify('**/#**', None)
-    build.classify('**/thumbs.db', None)
+    build.classify("ArtSource/**", None)
+    build.classify("Builds/**", None)
+    build.classify("docs/**", None)
 
-    ## To archive files, classify them as 'archive'.
+    # Exclude editable artwork source files.
+    build.classify("**.psd", None)
+    build.classify("**.xcf", None)
 
-    # build.classify('game/**.png', 'archive')
-    # build.classify('game/**.jpg', 'archive')
+    # Exclude editor backups and hidden files.
+    build.classify("**~", None)
+    build.classify("**.bak", None)
+    build.classify("**/.**", None)
+    build.classify("**/#**", None)
+    build.classify("**/thumbs.db", None)
 
-    ## Files matching documentation patterns are duplicated in a mac app build,
-    ## so they appear in both the app and the zip file.
+    # Asset archives can be configured when actual artwork is available.
+    # build.classify("game/**.png", "archive")
+    # build.classify("game/**.jpg", "archive")
 
-    build.documentation('*.html')
-    build.documentation('*.txt')
+    # Include matching documentation in the appropriate build locations.
+    build.documentation("*.html")
+    build.documentation("*.txt")
 
 
 ## A Google Play license key is required to perform in-app purchases. It can be

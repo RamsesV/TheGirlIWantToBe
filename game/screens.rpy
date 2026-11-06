@@ -220,45 +220,69 @@ style quick_button_text:
 
 # Navigation.
 
-screen navigation():
+screen navigation(title_screen=False):
 
     vbox:
-        style_prefix "navigation"
 
-        xpos gui.navigation_xpos
-        yalign 0.5
-        spacing gui.navigation_spacing
+        style_prefix (
+            "title_navigation" if title_screen else "navigation"
+        )
+
+        xpos (90 if title_screen else gui.navigation_xpos)
+
+        ypos (390 if title_screen else 0.5)
+        yanchor (0.0 if title_screen else 0.5)
+
+        spacing (8 if title_screen else gui.navigation_spacing)
 
         if main_menu:
-            textbutton _("Start") action Start()
+
+            textbutton _("Start"):
+                action Start()
 
         else:
-            textbutton _("History") action ShowMenu("history")
-            textbutton _("Save") action ShowMenu("save")
 
-        textbutton _("Load") action ShowMenu("load")
-        textbutton _("Preferences") action ShowMenu("preferences")
+            textbutton _("History"):
+                action ShowMenu("history")
+
+            textbutton _("Save"):
+                action ShowMenu("save")
+
+        textbutton _("Load"):
+            action ShowMenu("load")
+
+        textbutton _("Preferences"):
+            action ShowMenu("preferences")
 
         textbutton _("Gallery"):
             id "navigation_gallery"
             action ShowMenu("replay_gallery")
 
         if _in_replay:
-            textbutton _("End Replay") action EndReplay(confirm=True)
+
+            textbutton _("End Replay"):
+                action EndReplay(confirm=True)
 
         elif not main_menu:
-            textbutton _("Main Menu") action MainMenu()
 
-        textbutton _("About") action ShowMenu("about")
+            textbutton _("Main Menu"):
+                action MainMenu()
+
+        textbutton _("About"):
+            action ShowMenu("about")
 
         if renpy.variant("pc") or (
             renpy.variant("web")
             and not renpy.variant("mobile")
         ):
-            textbutton _("Help") action ShowMenu("help")
+
+            textbutton _("Help"):
+                action ShowMenu("help")
 
         if renpy.variant("pc"):
-            textbutton _("Quit") action Quit(confirm=not main_menu)
+
+            textbutton _("Quit"):
+                action Quit(confirm=not main_menu)
 
 style navigation_button is gui_button
 style navigation_button_text is gui_button_text
@@ -274,52 +298,89 @@ style navigation_button_text:
 # Main menu.
 
 screen main_menu():
+
     tag menu
 
-    add gui.main_menu_background
+    if not content_notice_accepted() and not renpy.is_in_test():
 
-    frame:
-        style "main_menu_frame"
+        use content_age_gate()
 
-    use navigation
+    else:
 
-    if gui.show_name:
-        vbox:
-            style "main_menu_vbox"
+        add gui.main_menu_background
 
-            text "[config.name!t]":
-                style "main_menu_title"
+        use navigation(title_screen=True)
 
-            text "[config.version]":
+        if gui.show_name:
+
+            vbox:
+                style "main_menu_vbox"
+
+                text main_menu_title_text():
+                    id "main_menu_title"
+                    style "main_menu_title"
+
+                null height 8
+
+                add Solid("#ef927e"):
+                    xsize 120
+                    ysize 3
+
+            text "v[config.version]":
+                id "main_menu_version"
                 style "main_menu_version"
 
-style main_menu_frame is empty
+        use content_notice_bar()
+
 style main_menu_vbox is vbox
 style main_menu_text is gui_text
 style main_menu_title is main_menu_text
 style main_menu_version is main_menu_text
 
-style main_menu_frame:
-    xsize 420
-    yfill True
-    background "gui/overlay/main_menu.png"
 
 style main_menu_vbox:
-    xalign 1.0
-    xoffset -30
-    xmaximum 1200
-    yalign 1.0
-    yoffset -30
+
+    xpos 90
+    ypos 80
+
+    xsize 740
+    spacing 12
+
 
 style main_menu_text:
-    properties gui.text_properties("main_menu", accent=True)
+
+    font gui.interface_text_font
+    color "#f5e7d4"
+
+    outlines [
+        (0, "#17121c80", 0, 2),
+    ]
+
 
 style main_menu_title:
-    properties gui.text_properties("title")
+
+    size 84
+    bold False
+
+    xsize 740
+    text_align 0.0
+
+    layout "subtitle"
+    line_spacing 8
+
 
 style main_menu_version:
-    properties gui.text_properties("version")
 
+    xpos 90
+    yalign 1.0
+    yoffset -35
+
+    size 22
+    color "#c9bab9"
+
+    outlines [
+        (0, "#17121c80", 0, 1),
+    ]
 
 # Shared game menu layout.
 
@@ -344,7 +405,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
                 if scroll == "viewport":
                     viewport:
                         id "game_menu_viewport"
-                        
+
                         yinitial yinitial
                         scrollbars "vertical"
                         mousewheel True
@@ -436,14 +497,23 @@ style return_button:
 # About.
 
 screen about():
+
     tag menu
 
     use game_menu(_("About"), scroll="viewport"):
+
         style_prefix "about"
 
         vbox:
+            spacing 20
+
             label "[config.name!t]"
+
             text _("Version [config.version!t]\n")
+
+            textbutton _("Content Information"):
+                id "about_content_information"
+                action ShowMenu("content_information")
 
             if gui.about:
                 text "[gui.about!t]\n"

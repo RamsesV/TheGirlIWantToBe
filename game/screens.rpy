@@ -1,4 +1,4 @@
-﻿init offset = -1
+init offset = -1
 
 
 # Base styles.
@@ -69,19 +69,29 @@ style frame:
 # Dialogue.
 
 screen say(who, what):
+
+    use story_dialogue_background
+
     window:
         id "window"
 
-        if who is not None:
-            window:
-                id "namebox"
-                style "namebox"
-                text who id "who"
+        fixed:
 
-        text what id "what"
+            if who is not None:
 
-    if not renpy.variant("small"):
-        add SideImage() xalign 0.0 yalign 1.0
+                text who:
+                    id "who"
+                    style "say_label"
+
+                add Solid("#ef927e"):
+                    xpos 150
+                    ypos 76
+                    xysize (65, 2)
+
+            text what:
+                id "what"
+                style "say_dialogue"
+
 
 init python:
     config.character_id_prefixes.append('namebox')
@@ -151,11 +161,25 @@ style input:
 # Standard choices.
 
 screen choice(items):
-    style_prefix "choice"
+    viewport:
+        xpos 1095
+        ypos 300
+        xysize (825, 540)
+        mousewheel True
+        draggable True
 
-    vbox:
-        for i in items:
-            textbutton i.caption action i.action
+        vbox:
+            spacing 12
+
+            for item in items:
+                if item.action is not None:
+                    button:
+                        style "story_choice_button"
+                        action item.action
+                        text item.caption style "story_choice_text"
+                else:
+                    text item.caption style "story_choice_caption"
+
 
 style choice_vbox is vbox
 style choice_button is button
@@ -181,22 +205,22 @@ screen quick_menu():
 
     if quick_menu:
         hbox:
-            style_prefix "quick"
-            style "quick_menu"
+            style "story_quick_menu"
+            style_prefix "story_quick"
 
             textbutton _("Back") action Rollback()
-            textbutton _("History") action ShowMenu('history')
+            textbutton _("History") action ShowMenu("history")
             textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Auto") action Preference("auto-forward", "toggle")
-            textbutton _("Save") action ShowMenu('save')
-            textbutton _("Q.Save") action QuickSave()
-            textbutton _("Q.Load") action QuickLoad()
-            textbutton _("Prefs") action ShowMenu('preferences')
+            textbutton _("Save") action ShowMenu("save")
 
             if player.background_id is not None:
                 textbutton _("Character"):
                     id "quick_player_stats"
                     action ShowMenu("player_stats")
+
+            textbutton _("Menu") action ShowMenu()
+
 
 init python:
     config.overlay_screens.append("quick_menu")

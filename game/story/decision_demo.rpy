@@ -1,6 +1,12 @@
 label choose_decision(decision):
 
-    call screen decision_choice(decision)
+    $ decision_context_who, decision_context_text = story_decision_context(decision)
+
+    call screen decision_choice(
+        decision,
+        decision_context_who,
+        decision_context_text,
+    )
 
     $ decision_result = _return
 
@@ -11,6 +17,7 @@ label choose_decision(decision):
     )
 
     $ apply_decision(selected_option, player)
+    $ finish_walkthrough_setup()
 
     return decision_result
 

@@ -27,6 +27,9 @@ testsuite save_tests:
         click id "background_bookworm"
         click id "background_begin"
 
+        advance until screen "decision_choice"
+        click id "decision_option_accept"
+
         advance until screen "choice"
         click "Leave unchanged"
 

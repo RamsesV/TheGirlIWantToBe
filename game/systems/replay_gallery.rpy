@@ -80,6 +80,8 @@ init python:
             scope={
                 "player": replay_player,
                 "quick_menu": False,
+                "protagonist_outfit": background_id,
+                "npc_outfits": {"neighbor": "casual"},
             },
             locked=not gallery_available(entry),
         )

@@ -1,26 +1,29 @@
-screen decision_choice(decision):
+screen decision_choice(
+    decision,
+    context_who=None,
+    context_text="",
+):
 
     modal True
     roll_forward False
 
-    add Solid("#14111c")
+    default show_walkthrough_setup = (
+        not persistent.walkthrough_setup_done
+    )
 
-    vbox:
-        xalign 0.5
-        ypos 90
-        spacing 24
+    use decision_context(context_who, context_text)
 
-        text _(decision["prompt"]):
-            xsize 1500
-            size 36
-            color "#ffffff"
+    if show_walkthrough_setup:
 
-        # Temporary shortcuts for testing.
         hbox:
-            spacing 24
+            xpos 1125
+            ypos 250
+            spacing 20
 
             text _("Walkthrough:"):
-                size 24
+                style "story_choice_detail"
+                xsize 145
+                yalign 0.5
 
             for mode, caption in (
                 ("off", _("Off")),
@@ -30,7 +33,7 @@ screen decision_choice(decision):
 
                 textbutton _(caption):
                     id ("walkthrough_" + mode)
-                    text_size 24
+                    style "story_walkthrough_button"
 
                     selected (
                         persistent.walkthrough_mode == mode
@@ -42,47 +45,48 @@ screen decision_choice(decision):
                         mode,
                     )
 
-        for option in decision["options"]:
+    viewport:
+        id "decision_options"
 
-            if decision_visible(option, player):
+        xpos 1095
+        ypos 300
+        xysize (825, 460)
 
-                vbox:
-                    xsize 1500
-                    spacing 8
+        mousewheel True
+        draggable True
+
+        vbox:
+            spacing 12
+
+            for option in decision["options"]:
+
+                if decision_visible(option, player):
 
                     button:
                         id ("decision_option_" + option["id"])
+                        style "story_choice_button"
 
-                        xfill True
-                        padding (20, 14)
+                        sensitive decision_available(
+                            option,
+                            player,
+                        )
 
-                        background Solid("#30263c")
-                        hover_background Solid("#55356e")
-                        insensitive_background Solid("#211d27")
-
-                        sensitive decision_available(option, player)
                         action Return(option["id"])
 
-                        text _(option["text"]):
-                            size 28
+                        vbox:
+                            spacing 6
 
-                            color (
-                                "#ffffff"
-                                if decision_available(option, player)
-                                else "#81768b"
-                            )
+                            text _(option["text"]):
+                                style "story_choice_text"
 
-                    if persistent.walkthrough_mode == "hints":
+                            if persistent.walkthrough_mode == "hints":
 
-                        text _(option["hint"]):
-                            id ("decision_hint_" + option["id"])
-                            size 22
-                            color "#cbb5df"
+                                text _(option["hint"]):
+                                    id ("decision_hint_" + option["id"])
+                                    style "story_choice_detail"
 
-                    elif persistent.walkthrough_mode == "full":
+                            elif persistent.walkthrough_mode == "full":
 
-                        text decision_details(option, player):
-                            id ("decision_details_" + option["id"])
-                            xsize 1500
-                            size 22
-                            color "#cbb5df"
+                                text decision_details(option, player):
+                                    id ("decision_details_" + option["id"])
+                                    style "story_choice_detail"

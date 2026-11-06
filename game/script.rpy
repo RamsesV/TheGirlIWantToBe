@@ -10,6 +10,8 @@ label start:
 
     call memory_arrival
 
+    call first_arrival
+
     call player_state_test
 
     call decision_demo
@@ -35,6 +37,8 @@ label choose_background:
         chosen_background,
         BACKGROUNDS[chosen_background],
     )
+
+    $ protagonist_outfit = chosen_background
 
     return
 

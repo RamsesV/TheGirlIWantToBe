@@ -18,6 +18,9 @@ testsuite decision_tests:
         click id "background_bookworm"
         click id "background_begin"
 
+        advance until screen "decision_choice"
+        click id "decision_option_accept"
+
         advance until screen "choice"
         click "Leave unchanged"
 
@@ -35,11 +38,23 @@ testsuite decision_tests:
         assert not id "decision_hint_study"
         assert not id "decision_details_study"
 
-        click id "walkthrough_hints"
+        run ShowMenu("preferences")
+        pause until screen "preferences"
+
+        click id "pref_walkthrough_hints"
+
+        click "Return"
+        pause until screen "decision_choice"
         assert id "decision_hint_study"
         assert not id "decision_details_study"
 
-        click id "walkthrough_full"
+        run ShowMenu("preferences")
+        pause until screen "preferences"
+
+        click id "pref_walkthrough_full"
+
+        click "Return"
+        pause until screen "decision_choice"
         assert id "decision_details_study"
         assert not id "decision_hint_study"
 
@@ -171,10 +186,22 @@ testsuite decision_tests:
 
         assert not id "decision_option_lead"
 
-        click id "walkthrough_hints"
+        run ShowMenu("preferences")
+        pause until screen "preferences"
+
+        click id "pref_walkthrough_hints"
+
+        click "Return"
+        pause until screen "decision_choice"
         assert not id "decision_option_lead"
 
-        click id "walkthrough_full"
+        run ShowMenu("preferences")
+        pause until screen "preferences"
+
+        click id "pref_walkthrough_full"
+
+        click "Return"
+        pause until screen "decision_choice"
         assert id "decision_option_lead"
         assert id "decision_details_lead"
 

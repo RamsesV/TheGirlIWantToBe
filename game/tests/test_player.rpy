@@ -1,15 +1,17 @@
 testsuite global:
 
     setup:
-        # Preserve the original backup if a previous test run was interrupted.
+
         if eval (persistent.gallery_test_backup is None):
 
             $ persistent.gallery_test_backup = {
                 "unlocks": dict(persistent.gallery_unlocks),
                 "unlock_all": persistent.gallery_unlock_all,
+                "walkthrough_setup_done": persistent.walkthrough_setup_done,
             }
 
     teardown:
+
         if eval (persistent.gallery_test_backup is not None):
 
             $ persistent.gallery_unlocks = dict(
@@ -18,6 +20,11 @@ testsuite global:
 
             $ persistent.gallery_unlock_all = (
                 persistent.gallery_test_backup["unlock_all"]
+            )
+
+            $ persistent.walkthrough_setup_done = persistent.gallery_test_backup.get(
+                "walkthrough_setup_done",
+                False,
             )
 
             $ persistent.gallery_test_backup = None
@@ -40,6 +47,9 @@ testsuite player_tests:
     testcase bookworm:
         click id "background_bookworm"
         click id "background_begin"
+
+        advance until screen "decision_choice"
+        click id "decision_option_accept"
         advance until screen "choice"
 
         assert eval (player.background_id == "bookworm")
@@ -63,6 +73,9 @@ testsuite player_tests:
     testcase girl_next_door:
         click id "background_girl_next_door"
         click id "background_begin"
+
+        advance until screen "decision_choice"
+        click id "decision_option_accept"
         advance until screen "choice"
 
         assert eval (player.background_id == "girl_next_door")
@@ -86,6 +99,9 @@ testsuite player_tests:
     testcase social_butterfly:
         click id "background_social_butterfly"
         click id "background_begin"
+
+        advance until screen "decision_choice"
+        click id "decision_option_accept"
         advance until screen "choice"
 
         assert eval (player.background_id == "social_butterfly")
@@ -154,6 +170,9 @@ testsuite character_menu_tests:
     testcase bookworm_overview:
         click id "background_bookworm"
         click id "background_begin"
+
+        advance until screen "decision_choice"
+        click id "decision_option_accept"
         advance until screen "choice"
 
         $ stats_before = (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status)
@@ -181,6 +200,9 @@ testsuite character_menu_tests:
     testcase girl_next_door_overview:
         click id "background_girl_next_door"
         click id "background_begin"
+
+        advance until screen "decision_choice"
+        click id "decision_option_accept"
         advance until screen "choice"
 
         $ stats_before = (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status)
@@ -208,6 +230,9 @@ testsuite character_menu_tests:
     testcase social_butterfly_overview:
         click id "background_social_butterfly"
         click id "background_begin"
+
+        advance until screen "decision_choice"
+        click id "decision_option_accept"
         advance until screen "choice"
 
         $ stats_before = (dict(player.attributes), player.submission, player.dominance, player.corruption, player.arousal, dict(player.skills), dict(player.preferences), player.background_id, player.relationship_status)

@@ -95,6 +95,9 @@ init python:
 
                 "protagonist_name": PROTAGONIST_NAMES[0],
                 "neighbor_introduced": False,
+
+                "phone_threads": {},
+                "phone_unlocked": False,
             },
             locked=not gallery_available(entry),
         )

@@ -17,6 +17,8 @@ testsuite character_name_tests:
         click id "background_girl_next_door"
         click id "background_begin"
 
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
 
     after testcase:

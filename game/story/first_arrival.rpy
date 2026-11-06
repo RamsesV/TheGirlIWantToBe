@@ -1,17 +1,10 @@
 default first_arrival_approach = None
 
 image bg arrival_hallway = "images/backgrounds/arrival_hallway.png"
-image bg arrival_hallway_neighbor_open = Transform(
-    "images/backgrounds/arrival_hallway_neighbor_open.png",
-    xysize=(1920, 1080)
-)
-
 image arrival_boxes = "images/props/arrival_moving_boxes.png"
-
 image neighbor_dog standing alert = (
     "images/characters/neighbor_dog/standing_alert.png"
 )
-
 image arrival_door_foreground = Crop(
     (1710, 0, 210, 1080),
     "images/backgrounds/arrival_hallway.png"
@@ -21,7 +14,6 @@ transform arrival_boxes_position:
     xysize (440, 440)
     anchor (0.5, 1.0)
     pos (850, 970)
-
 
 transform arrival_dog_doorway:
     xysize (480, 480)
@@ -44,20 +36,74 @@ label first_arrival:
     "Your arms still ache from carrying everything up the stairs."
 
     if player.background_id == "bookworm":
+
         "You checked the route twice before leaving. Somehow, neither version mentioned the entrance steps."
         "Your phone vibrates."
-        "'Made it? Call me when you're settled. Miss you already.'"
+
+        $ phone_add_message(
+            "partner",
+            "arrival_bookworm",
+            _("Made it? Call me when you're settled. Miss you already."),
+        )
+
+        window hide
+        call screen phone("partner", forced=True)
+        window auto
+
         "You smile at the message. For now, the distance is just a number on a map."
 
     elif player.background_id == "social_butterfly":
-        "You rest a hand on the largest box and glance at your phone."
-        "'Made it? Go meet your neighbors. I expect stories.'"
-        "You send back a picture of the front door."
+
+        "Your phone vibrates."
+
+        $ phone_add_message(
+            "partner",
+            "arrival_social",
+            _("Made it? Go meet your neighbors. I expect stories."),
+        )
+
+        "You take a quick picture of the landing and send it back."
+
+        $ phone_add_message(
+            "partner",
+            "arrival_photo",
+            _("Made it! The stairs nearly killed me."),
+            outgoing=True,
+            image="images/backgrounds/arrival_hallway.png",
+        )
+
+        window hide
+        call screen phone("partner", forced=True)
+        window auto
+
         "The conversation about opening the relationship had felt straightforward. Standing here alone, you realize the practical part starts now."
 
     else:
+
         "Your thumb hovers over a familiar conversation."
         "For years, arriving somewhere meant telling him you'd arrived."
+
+        $ phone_add_message(
+            "ex",
+            "old_sweater",
+            _("I think your blue sweater is still here."),
+        )
+
+        $ phone_add_message(
+            "ex",
+            "old_reply",
+            _("I'll pick it up sometime."),
+            outgoing=True,
+        )
+
+        window hide
+        call screen phone(
+            "ex",
+            forced=True,
+            day="Yesterday",
+        )
+        window auto
+
         "You put the phone away. Tonight, you'll unpack first."
 
     "A door opens across the landing."

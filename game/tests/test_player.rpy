@@ -61,6 +61,8 @@ testsuite player_tests:
     testcase bookworm:
         click id "background_bookworm"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
         advance until screen "decision_choice"
@@ -89,6 +91,8 @@ testsuite player_tests:
     testcase girl_next_door:
         click id "background_girl_next_door"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
         advance until screen "decision_choice"
@@ -117,6 +121,8 @@ testsuite player_tests:
     testcase social_butterfly:
         click id "background_social_butterfly"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
         advance until screen "decision_choice"
@@ -190,6 +196,8 @@ testsuite character_menu_tests:
     testcase bookworm_overview:
         click id "background_bookworm"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
         advance until screen "decision_choice"
@@ -222,6 +230,8 @@ testsuite character_menu_tests:
     testcase girl_next_door_overview:
         click id "background_girl_next_door"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
         advance until screen "decision_choice"
@@ -254,6 +264,8 @@ testsuite character_menu_tests:
     testcase social_butterfly_overview:
         click id "background_social_butterfly"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
         advance until screen "decision_choice"

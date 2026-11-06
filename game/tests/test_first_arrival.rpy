@@ -35,6 +35,8 @@ testsuite first_arrival_tests:
     testcase bookworm_accepts_help:
         click id "background_bookworm"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
         advance until screen "decision_choice"
@@ -57,6 +59,8 @@ testsuite first_arrival_tests:
     testcase bookworm_finds_second_entrance:
         click id "background_bookworm"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
         advance until screen "decision_choice"
@@ -67,6 +71,8 @@ testsuite first_arrival_tests:
     testcase social_butterfly_makes_deal:
         click id "background_social_butterfly"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
         advance until screen "decision_choice"
@@ -83,6 +89,8 @@ testsuite first_arrival_tests:
     testcase girl_next_door_moves_in_alone:
         click id "background_girl_next_door"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
         advance until screen "decision_choice"
@@ -100,6 +108,8 @@ testsuite first_arrival_tests:
         click id "background_bookworm"
         click id "background_begin"
 
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
 
         click id "name_preset_chloe"
@@ -114,9 +124,10 @@ testsuite first_arrival_tests:
         pause until screen "replay_gallery"
 
         click id "gallery_replay_first_arrival"
-
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "decision_choice"
-
+        advance until screen "decision_choice"
         assert eval (_in_replay == "first_arrival")
         assert eval (player.background_id == "girl_next_door")
         assert eval (protagonist_outfit == "girl_next_door")
@@ -137,6 +148,8 @@ testsuite first_arrival_tests:
 
         click id "background_bookworm"
         click id "background_begin"
+        advance until screen "phone"
+        click id "phone_close"
         advance until screen "protagonist_name_choice"
         click id "protagonist_name_confirm"
 

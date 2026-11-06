@@ -18,6 +18,9 @@ testsuite decision_tests:
         click id "background_bookworm"
         click id "background_begin"
 
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
+
         advance until screen "decision_choice"
         click id "decision_option_accept"
 

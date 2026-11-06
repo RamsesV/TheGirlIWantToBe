@@ -64,7 +64,6 @@ init python:
 
 
     def gallery_replay_action(entry):
-        """Give the replay independent player data."""
 
         replay_player = PlayerState()
 
@@ -80,8 +79,15 @@ init python:
             scope={
                 "player": replay_player,
                 "quick_menu": False,
+
                 "protagonist_outfit": background_id,
-                "npc_outfits": {"neighbor": "casual"},
+                "npc_outfits": {
+                    "neighbor": "casual",
+                },
+
+                "protagonist_name": "Emma",
+                "neighbor_introduced": False,
+                "dog_sitting_lead_known": False,
             },
             locked=not gallery_available(entry),
         )

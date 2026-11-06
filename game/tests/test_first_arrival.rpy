@@ -35,6 +35,8 @@ testsuite first_arrival_tests:
     testcase bookworm_accepts_help:
         click id "background_bookworm"
         click id "background_begin"
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
         advance until screen "decision_choice"
 
         assert eval (protagonist_outfit == "bookworm")
@@ -55,6 +57,8 @@ testsuite first_arrival_tests:
     testcase bookworm_finds_second_entrance:
         click id "background_bookworm"
         click id "background_begin"
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
         advance until screen "decision_choice"
         click id "decision_option_notice"
         advance until "Tomorrow, groceries."
@@ -63,6 +67,8 @@ testsuite first_arrival_tests:
     testcase social_butterfly_makes_deal:
         click id "background_social_butterfly"
         click id "background_begin"
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
         advance until screen "decision_choice"
 
         assert eval (protagonist_outfit == "social_butterfly")
@@ -77,6 +83,8 @@ testsuite first_arrival_tests:
     testcase girl_next_door_moves_in_alone:
         click id "background_girl_next_door"
         click id "background_begin"
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
         advance until screen "decision_choice"
 
         assert eval (protagonist_outfit == "girl_next_door")
@@ -88,25 +96,38 @@ testsuite first_arrival_tests:
         assert eval (first_arrival_approach == "alone")
 
     testcase replay_preserves_outfit_and_approach:
+
         click id "background_bookworm"
         click id "background_begin"
+
+        advance until screen "protagonist_name_choice"
+
+        click id "name_preset_chloe"
+        click id "protagonist_name_confirm"
+
         advance until screen "decision_choice"
         click id "decision_option_notice"
+
         advance until screen "choice"
 
         run ShowMenu("replay_gallery")
         pause until screen "replay_gallery"
+
         click id "gallery_replay_first_arrival"
+
         advance until screen "decision_choice"
 
         assert eval (_in_replay == "first_arrival")
         assert eval (player.background_id == "girl_next_door")
         assert eval (protagonist_outfit == "girl_next_door")
+        assert eval (protagonist_name == "Emma")
 
         click id "decision_option_accept"
+
         advance until screen "replay_gallery"
 
         assert eval (protagonist_outfit == "bookworm")
+        assert eval (protagonist_name == "Chloe")
         assert eval (first_arrival_approach == "notice")
 
         click "Return"
@@ -116,6 +137,8 @@ testsuite first_arrival_tests:
 
         click id "background_bookworm"
         click id "background_begin"
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
 
         advance until screen "decision_choice"
 

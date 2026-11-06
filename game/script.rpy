@@ -3,7 +3,8 @@ label start:
     scene black
 
     "Every new beginning starts somewhere."
-    "Choose your background."
+
+    call intro_setting
 
     call choose_background
 

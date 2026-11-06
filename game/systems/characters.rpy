@@ -19,8 +19,8 @@ define PROTAGONIST_NAMES = (
 
 define PROTAGONIST_NAME_MAX_LENGTH = 24
 
-define neighbor_name = "Claire Morgan"
-define neighbor_dog_name = "Milo"
+define neighbor_name = "Claire Bennett"
+define neighbor_dog_name = "Rex"
 
 
 define arrival_you = Character(
@@ -66,7 +66,6 @@ image neighbor standing neutral = "images/characters/neighbor/[npc_outfits['neig
 transform protagonist_left:
     xalign 0.22
     yalign 1.0
-
     zoom 0.70
     xzoom -1.0
 
@@ -74,7 +73,6 @@ transform protagonist_left:
 transform protagonist_center:
     xalign 0.5
     yalign 1.0
-
     zoom 0.70
     xzoom 1.0
 
@@ -82,15 +80,13 @@ transform protagonist_center:
 transform protagonist_right:
     xalign 0.78
     yalign 1.0
-
     zoom 0.70
     xzoom 1.0
 
 
-transform protagonist_apartment_entry:
+transform protagonist_far_right:
     xalign 0.93
     yalign 1.0
-
     zoom 0.70
     xzoom 1.0
 
@@ -98,7 +94,6 @@ transform protagonist_apartment_entry:
 transform character_left:
     xalign 0.22
     yalign 1.0
-
     zoom 0.70
     xzoom 1.0
 
@@ -106,7 +101,6 @@ transform character_left:
 transform character_center:
     xalign 0.5
     yalign 1.0
-
     zoom 0.70
     xzoom 1.0
 
@@ -114,6 +108,5 @@ transform character_center:
 transform character_right:
     xalign 0.78
     yalign 1.0
-
     zoom 0.70
     xzoom -1.0

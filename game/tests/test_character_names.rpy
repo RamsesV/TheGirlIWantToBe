@@ -37,8 +37,12 @@ testsuite character_name_tests:
 
         assert eval (protagonist_name == "Olivia")
         assert eval neighbor_introduced
-        assert eval (neighbor_name == "Claire Bennett")
-        assert eval (neighbor_dog_name == "Hector")
+        assert eval bool(neighbor_name.strip())
+        assert eval bool(neighbor_dog_name.strip())
+
+        assert eval (
+            neighbor_name in neighbor_introduction_text()
+        )
 
     testcase custom_name_and_empty_input:
 

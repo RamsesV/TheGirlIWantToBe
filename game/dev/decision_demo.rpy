@@ -54,3 +54,17 @@ define ARRIVAL_DECISION = {
         },
     ),
 }
+
+# Stable entry point for automated tests.
+label test_start:
+
+    scene black
+
+    call choose_background
+    call memory_arrival
+    call first_arrival
+
+    call player_state_test
+    call decision_demo
+
+    return

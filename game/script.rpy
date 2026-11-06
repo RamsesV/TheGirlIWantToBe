@@ -3,21 +3,15 @@ default story_scene_id = None
 
 label start:
 
+    play music "audio/music/new_beginning.mp3" fadeout 2.0 fadein 3.0
     scene black
 
     "Every new beginning starts somewhere."
 
     call intro_setting
-
     call choose_background
-
     call memory_arrival
-
     call first_arrival
-
-    call player_state_test
-
-    call decision_demo
 
     "End of the first prototype."
 

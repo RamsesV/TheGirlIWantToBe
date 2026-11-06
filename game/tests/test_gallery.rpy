@@ -103,7 +103,7 @@ testsuite gallery_tests:
 
     testcase replay_preserves_player_state:
 
-        click "Start"
+        run Start("test_start")
 
         advance until screen "background_select"
 

@@ -1,4 +1,4 @@
-default story_debug_visible = False
+default story_debug_visible = True
 
 
 init python:

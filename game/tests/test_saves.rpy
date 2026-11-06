@@ -18,7 +18,7 @@ testsuite save_tests:
             run MainMenu(confirm=False)
 
         pause until screen "main_menu"
-        run Start()
+        run Start("test_start")
 
         $ persistent.walkthrough_mode = "off"
         $ persistent.show_unavailable_choices = False

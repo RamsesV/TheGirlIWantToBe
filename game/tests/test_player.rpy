@@ -1,3 +1,17 @@
+# Temporary persistent backups used by test fixtures.
+default persistent.audio_tests_backup = None
+default persistent.content_tests_backup = None
+
+default persistent.decision_tests_original_mode = None
+default persistent.decision_tests_original_visibility = None
+
+default persistent.arrival_test_mode = None
+default persistent.arrival_test_visibility = None
+
+default persistent.gallery_replay_snapshot = None
+default persistent.gallery_test_backup = None
+default persistent.save_test_state = None
+
 testsuite global:
 
     setup:
@@ -41,13 +55,15 @@ testsuite player_tests:
             run MainMenu(confirm=False)
 
         pause until screen "main_menu"
-        run Start()
+        run Start("test_start")
         advance until screen "background_select"
 
     testcase bookworm:
         click id "background_bookworm"
         click id "background_begin"
-
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
+        advance until screen "decision_choice"
         advance until screen "decision_choice"
         click id "decision_option_accept"
         advance until screen "choice"
@@ -73,7 +89,9 @@ testsuite player_tests:
     testcase girl_next_door:
         click id "background_girl_next_door"
         click id "background_begin"
-
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
+        advance until screen "decision_choice"
         advance until screen "decision_choice"
         click id "decision_option_accept"
         advance until screen "choice"
@@ -99,7 +117,9 @@ testsuite player_tests:
     testcase social_butterfly:
         click id "background_social_butterfly"
         click id "background_begin"
-
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
+        advance until screen "decision_choice"
         advance until screen "decision_choice"
         click id "decision_option_accept"
         advance until screen "choice"
@@ -164,13 +184,15 @@ testsuite character_menu_tests:
             run MainMenu(confirm=False)
 
         pause until screen "main_menu"
-        run Start()
+        run Start("test_start")
         advance until screen "background_select"
 
     testcase bookworm_overview:
         click id "background_bookworm"
         click id "background_begin"
-
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
+        advance until screen "decision_choice"
         advance until screen "decision_choice"
         click id "decision_option_accept"
         advance until screen "choice"
@@ -200,7 +222,9 @@ testsuite character_menu_tests:
     testcase girl_next_door_overview:
         click id "background_girl_next_door"
         click id "background_begin"
-
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
+        advance until screen "decision_choice"
         advance until screen "decision_choice"
         click id "decision_option_accept"
         advance until screen "choice"
@@ -230,7 +254,9 @@ testsuite character_menu_tests:
     testcase social_butterfly_overview:
         click id "background_social_butterfly"
         click id "background_begin"
-
+        advance until screen "protagonist_name_choice"
+        click id "protagonist_name_confirm"
+        advance until screen "decision_choice"
         advance until screen "decision_choice"
         click id "decision_option_accept"
         advance until screen "choice"

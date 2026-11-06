@@ -14,7 +14,7 @@ testsuite first_arrival_tests:
                 run MainMenu(confirm=False)
 
         pause until screen "main_menu"
-        run Start()
+        run Start("test_start")
 
         $ persistent.walkthrough_setup_done = False
         $ persistent.walkthrough_mode = "off"

@@ -1,7 +1,11 @@
-# Player preferences, shared across playthroughs.
+# Walkthrough preferences persist across playthroughs.
 default persistent.walkthrough_mode = "off"
 default persistent.show_unavailable_choices = False
+default persistent.walkthrough_setup_done = False
 
+# Context is saved with the current decision.
+default decision_context_who = None
+default decision_context_text = ""
 
 # Display names used by the full walkthrough.
 define DECISION_VALUE_LABELS = {
@@ -156,3 +160,20 @@ init python:
         )
 
         return " | ".join(lines)
+
+    def story_decision_context(decision):
+        """Snapshot the previous line before opening the decision screen."""
+
+        if _history_list:
+            entry = _history_list[-1]
+            return entry.who, entry.what
+
+        return None, _(decision["prompt"])
+
+
+    def finish_walkthrough_setup():
+        """Confirm the first walkthrough choice across playthroughs."""
+
+        if not persistent.walkthrough_setup_done:
+            persistent.walkthrough_setup_done = True
+            renpy.save_persistent()

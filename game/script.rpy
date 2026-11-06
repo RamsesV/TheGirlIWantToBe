@@ -1,3 +1,6 @@
+# Current story location for development tools.
+default story_scene_id = None
+
 label start:
 
     scene black

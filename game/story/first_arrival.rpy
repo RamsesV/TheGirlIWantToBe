@@ -47,7 +47,7 @@ label first_arrival:
 
     arrival_neighbor "I live across the hall from the empty apartment."
     arrival_neighbor "Well. Formerly empty, I hope."
-    arrival_neighbor "I'm Claire Bennett, by the way. And you are?"
+    arrival_neighbor "[neighbor_introduction_text()]"
 
     if not protagonist_name:
 
@@ -64,7 +64,7 @@ label first_arrival:
 
     "Something clicks against the floor inside her apartment. Then comes a single, hopeful bark."
 
-    arrival_neighbor "Milo. Stay."
+    arrival_neighbor "[neighbor_dog_name]. Stay."
     arrival_neighbor "That's my dog. He thinks every open door means a walk."
 
     "The clicking stops. A tail thumps against the doorframe instead."
